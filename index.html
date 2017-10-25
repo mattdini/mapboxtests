@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFua3JvbSIsImEiOiJjaXkwaTBjdzYwMDdoMnFsbWRtenJ1ajh5In0.l2FbQOCZlbk8k2pbYu6-uw';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v9',
+    center: [-122.68653524497304,45.50621210813338], // starting position
+    zoom: 12
+});
+
+
+
+map.on('load', function () {
+
+    map.addSource('neighbourhoods', {
+        type: 'geojson',
+        data: 'neighbourhoods.geojson'
+    });
+
+
+    map.addLayer({
+        'id': 'neighbourhoodsLayer',
+        'type': 'fill',
+        'source': 'neighbourhoods',
+        'paint': {
+            'fill-opacity': 0.25
+            },        
+        }
+    );
+
+
+    map.addLayer({
+        'id': 'neighbourhoodsLayerText',
+        'type': 'symbol',
+        'source': 'neighbourhoods',
+        "layout": {
+            "text-field": "{neighbourhood}",
+            "text-font": ["Open Sans Regular"],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top"
+        }
+        }
+    );
+
+});
+
+
+
+
+</script>
+
+</body>
+</html>
+
