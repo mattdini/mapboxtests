@@ -6,7 +6,8 @@
       "properties": {
         "id": "001",
         "heading": 0,
-        "size": 1
+        "size": 1,
+        "description":"38 Davis Building"
       },
       "geometry": {
         "type": "Point",

@@ -24,8 +24,8 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFua3JvbSIsImEiOiJjaXkwaTBjdzYwMDdoMnFsbWRtenJ1ajh5In0.l2FbQOCZlbk8k2pbYu6-uw';
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mattankrom/cj9a7ah0834ex2staaztzvqw6', //blueprints
-      //style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+      //style: 'mapbox://styles/mattankrom/cj9a7ah0834ex2staaztzvqw6', //blueprints
+      style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
       center: [-122.66991,45.52438], // portland OR
       zoom: 17,
       pitch: 60,
@@ -48,6 +48,8 @@
         return layer.type !== 'symbol';
     });
     var labelLayerId = labelLayerIdx !== -1 ? layers[labelLayerIdx].id : undefined;
+    
+    
     map.addLayer({
         'id': '3d-buildings',
         'source': 'composite',
@@ -71,11 +73,11 @@
 
 
         var symbols = threebox.addSymbolLayer({
-            id:             "building",
+            id:             "importedBuilding",
             source:         "data/38davis.geojson",
             modelName:      "DavisBuilding",    // will look for an .obj and .mtl file with this name
             modelDirectory: "models/",          // in this directory
-            //rotation:       { generator: feature => (new THREE.Euler(Math.PI / 2, 0, feature.properties['heading'] * Math.PI / 180 + Math.PI / 2, "ZXY")) },
+            rotation:       { generator: feature => (new THREE.Euler(0,0,3.18, "ZXY")) },
             scale:          { property: 'size' },
             scaleWithMapProjection: true,
             key:            { property: "id" }
@@ -83,62 +85,13 @@
 
 
 
+    }); //map onload
 
 
+    map.on('click', e => {
+        console.log(threebox.world);
+    })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        // initialize geometry and material of our cube object
-        var geometry = new THREE.BoxGeometry(100, 100, 500);
-        var greenMaterial = new THREE.MeshPhongMaterial( {color: 0xaaffaa, side: THREE.DoubleSide});
-        var redMaterial = new THREE.MeshPhongMaterial( {color: 0xffaaaa, side: THREE.DoubleSide});
-
-        cube = new THREE.Mesh(geometry, redMaterial);
-        cube.userData.name = "Red cube";
-        threebox.addAtCoordinate(cube, [-122.68653524497304,45.50621210813338], {preScale: 1});
-        
-
-        //add mousing interactions
-        map.on('mousemove', function(e){
-
-            raycaster = new THREE.Raycaster();
-            var mouse = new THREE.Vector2();
-
-            // Clear old objects
-            highlighted.forEach(function(h) {
-                h.material = redMaterial;
-            });
-            highlighted.length = 0;
-
-            // scale mouse pixel position to a percentage of the screen's width and height
-            mouse.x = ( e.point.x / threebox.map.transform.width ) * 2 - 1;
-            mouse.y = -( ( e.point.y) / threebox.map.transform.height ) * 2 + 1;
-
-            raycaster.setFromCamera(mouse, threebox.camera);
-
-            // calculate objects intersecting the picking ray
-            var intersects = raycaster.intersectObjects(threebox.world.children, true);
-            if (!intersects[0]) return
-            var nearestObject = intersects[0].object;
-            console.log(nearestObject);
-            nearestObject.material = greenMaterial;
-            highlighted.push(nearestObject)
-            
-        });
-*/
-    });
 
     </script>
 </body>
