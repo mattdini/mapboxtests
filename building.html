@@ -24,7 +24,8 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFua3JvbSIsImEiOiJjaXkwaTBjdzYwMDdoMnFsbWRtenJ1ajh5In0.l2FbQOCZlbk8k2pbYu6-uw';
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mattankrom/cj9a7ah0834ex2staaztzvqw6',
+      style: 'mapbox://styles/mattankrom/cj9a7ah0834ex2staaztzvqw6', //blueprints
+      //style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
       center: [-122.66991,45.52438], // portland OR
       zoom: 17,
       pitch: 60,
@@ -40,12 +41,41 @@
         threebox.setupDefaultLights();
 
 
+
+        // Insert the layer beneath any symbol layer.
+    var layers = map.getStyle().layers.reverse();
+    var labelLayerIdx = layers.findIndex(function (layer) {
+        return layer.type !== 'symbol';
+    });
+    var labelLayerId = labelLayerIdx !== -1 ? layers[labelLayerIdx].id : undefined;
+    map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': {
+                'type': 'identity',
+                'property': 'height'
+            },
+            'fill-extrusion-base': {
+                'type': 'identity',
+                'property': 'min_height'
+            },
+            'fill-extrusion-opacity': .6
+        }
+    }, labelLayerId);
+
+
         var symbols = threebox.addSymbolLayer({
             id:             "building",
             source:         "data/38davis.geojson",
-            modelName:      "Massachussetshall",    // will look for an .obj and .mtl file with this name
+            modelName:      "DavisBuilding",    // will look for an .obj and .mtl file with this name
             modelDirectory: "models/",          // in this directory
-            rotation:       { generator: feature => (new THREE.Euler(Math.PI / 2, 0, feature.properties['heading'] * Math.PI / 180 + Math.PI / 2, "ZXY")) },
+            //rotation:       { generator: feature => (new THREE.Euler(Math.PI / 2, 0, feature.properties['heading'] * Math.PI / 180 + Math.PI / 2, "ZXY")) },
             scale:          { property: 'size' },
             scaleWithMapProjection: true,
             key:            { property: "id" }
