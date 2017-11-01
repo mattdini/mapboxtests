@@ -21,7 +21,8 @@
     <div id='map' class='map'></div>
 
     <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGFua3JvbSIsImEiOiJjaXkwaTBjdzYwMDdoMnFsbWRtenJ1ajh5In0.l2FbQOCZlbk8k2pbYu6-uw';
+    
+    mapboxgl.accessToken = config.accessToken;
     var map = new mapboxgl.Map({
       container: 'map',
       //style: 'mapbox://styles/mattankrom/cj9a7ah0834ex2staaztzvqw6', //blueprints
