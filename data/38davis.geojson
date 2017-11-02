@@ -7,7 +7,8 @@
         "id": "001",
         "heading": 0,
         "size": 1,
-        "description":"38 Davis Building"
+        "title":"38 Davis Building",
+        "description":"38 Davis Building - Home of AMA"
       },
       "geometry": {
         "type": "Point",
