@@ -224,11 +224,13 @@ SymbolLayer3D.prototype = {
         var remaining = Object.keys(this.models).length;
         console.log("Loading " + remaining + " models", this.models);
         const modelComplete = (m) => {
-            console.log("Model complete!", m);
+			console.log("Model complete!", m);
+			
             //if(this.models[m].loaded) 
             if(--remaining === 0) {
                 this.loaded = true;
-                this._addOrUpdateFeatures(this.features);
+				this._addOrUpdateFeatures(this.features);
+				
             }
         }
 
@@ -250,14 +252,15 @@ SymbolLayer3D.prototype = {
                 }
                 objLoader.setPath(this.models[modelName].directory);
                 
-                console.log("Loading model ", modelName);
+				console.log("Loading model ", modelName);
+				
 
                 objLoader.load(this.models[modelName].name + ".obj", obj => {
                     this.models[modelName].obj = obj;
                     this.models[modelName].isMesh = obj.isMesh;
                     this.models[modelName].loaded = true;
 
-                    modelComplete(modelName);
+					modelComplete(modelName);
                 }, () => (null), error => {
                     console.error("Could not load SymbolLayer3D model file.");    
                 } );
